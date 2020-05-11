@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/auth/send_sms.dart';
-import 'package:instagramclone/src/actions//auth/update_registration_info.dart';
+import 'package:instagramclone/src/actions/auth/update_registration_info.dart';
 import 'package:instagramclone/src/containers/registration_info_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/models/registration_info.dart';

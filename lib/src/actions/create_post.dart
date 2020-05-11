@@ -11,21 +11,14 @@ abstract class CreatePost //
     implements
         Built<CreatePost, CreatePostBuilder>,
         AppAction //
-{
-  factory CreatePost(String description, List<String> pictures, ActionResult result) {
+    {
+  factory CreatePost(ActionResult result) {
     return _$CreatePost((CreatePostBuilder b) {
-      b
-        ..description = description
-        ..result = result
-        ..pictures = ListBuilder<String>(pictures);
+      b.result = result;
     });
   }
 
   CreatePost._();
-
-  String get description;
-
-  BuiltList<String> get pictures;
 
   ActionResult get result;
 }
@@ -34,7 +27,7 @@ abstract class CreatePostSuccessful //
     implements
         Built<CreatePostSuccessful, CreatePostSuccessfulBuilder>,
         AppAction //
-{
+    {
   factory CreatePostSuccessful(Post post) {
     return _$CreatePostSuccessful((CreatePostSuccessfulBuilder b) {
       b.post = post.toBuilder();
@@ -50,7 +43,7 @@ abstract class CreatePostError //
     implements
         Built<CreatePostError, CreatePostErrorBuilder>,
         ErrorAction //
-{
+    {
   factory CreatePostError(Object error) {
     return _$CreatePostError((CreatePostErrorBuilder b) => b.error = error);
   }

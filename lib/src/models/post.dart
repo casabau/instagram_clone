@@ -3,16 +3,17 @@ library post;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
+import 'package:meta/meta.dart';
 import 'package:instagramclone/src/models/serializers.dart';
 
 part 'post.g.dart';
 
 abstract class Post implements Built<Post, PostBuilder> {
   factory Post({
-    String id,
-    String uid,
-    String description,
-    List<String> pictures,
+    @required String id,
+    @required String uid,
+    @required String description,
+    @required List<String> pictures,
   }) {
     return _$Post((PostBuilder b) {
       b

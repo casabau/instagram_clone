@@ -1,32 +1,37 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/bootstrap.dart';
 import 'package:instagramclone/src/data/auth_api.dart';
 import 'package:instagramclone/src/data/post_api.dart';
-import 'package:instagramclone/src/middleware/app_middleware.dart';
+import 'package:instagramclone/src/epics/app_epics.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/presentation/forgot_password.dart';
 import 'package:instagramclone/src/presentation/home.dart';
 import 'package:instagramclone/src/presentation/home_page.dart';
 import 'package:instagramclone/src/presentation/login_page.dart';
+import 'package:instagramclone/src/presentation/post_details.dart';
 import 'package:instagramclone/src/presentation/sign_up/signup_page.dart';
 import 'package:instagramclone/src/reducer/reducer.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:redux/redux.dart';
+import 'package:redux_epics/redux_epics.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance);
-  final PostApi postApi = PostApi(firestore: Firestore.instance);
-  final AppMiddleware middleware = AppMiddleware(authApi: authApi, postApi: postApi);
+  final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
+  final AppEpics epics = AppEpics(authApi: authApi, postApi: postApi);
   final Store<AppState> store = Store<AppState>(
     reducer,
     initialState: AppState(),
-    middleware: middleware.middleware,
+    middleware: <Middleware<AppState>>[
+      EpicMiddleware<AppState>(epics.epics),
+    ],
   );
 
   runApp(InstagramClone(store: store));
@@ -61,6 +66,7 @@ class InstagramClone extends StatelessWidget {
           '/signUp': (_) => const SignUpPage(),
           '/home': (_) => const HomePage(),
           '/forgotPassword': (_) => const ForgotPassword(),
+          '/postDetails': (_) => const PostDetails(),
         },
       ),
     );

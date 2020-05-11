@@ -54,7 +54,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                 MaterialPageRoute<void>(
                     fullscreenDialog: true,
                     builder: (BuildContext context) {
-                      return AddPostPage();
+                      return const AddPostPage();
                     }));
           } else {
             setState(() => page = index);
