@@ -6,9 +6,7 @@ import 'package:instagramclone/src/reducer/post_reducer.dart';
 import 'package:redux/redux.dart';
 
 AppState reducer(AppState state, dynamic action) {
-  if (action is! AppAction) {
-    throw StateError('$action is not an action');
-  }
+  final AppState result = _reducer(state, action);
   if (action is ErrorAction) {
     final dynamic error = action.error;
     try {
@@ -16,17 +14,11 @@ AppState reducer(AppState state, dynamic action) {
       print('stackTrace: ${error.stackTrace}');
     } catch (_) {}
   }
-
-  if (action is UpdateRegistrationInfo) {
-    print('ssssss $action');
-  }
-
-  final AppState result = _reducer(state, action);
-  print('$action => $result');
+  print(action);
   return result;
 }
 
 Reducer<AppState> _reducer = combineReducers<AppState>(<Reducer<AppState>>[
-  postReducer,
   authReducer,
+  postReducer,
 ]);

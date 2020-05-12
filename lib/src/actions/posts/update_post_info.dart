@@ -10,7 +10,7 @@ abstract class UpdatePostInfo //
     implements
         Built<UpdatePostInfo, UpdatePostInfoBuilder>,
         AppAction //
-    {
+{
   factory UpdatePostInfo(SavePostInfo info) {
     return _$UpdatePostInfo((UpdatePostInfoBuilder b) => b.info = info.toBuilder());
   }

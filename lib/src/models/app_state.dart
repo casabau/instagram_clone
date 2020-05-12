@@ -7,7 +7,6 @@ import 'package:instagramclone/src/models/post.dart';
 import 'package:instagramclone/src/models/serializers.dart';
 import 'package:instagramclone/src/models/save_post_info.dart';
 
-
 import 'app_user.dart';
 import 'registration_info.dart';
 

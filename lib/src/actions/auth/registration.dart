@@ -5,7 +5,6 @@ import 'package:built_value/built_value.dart';
 import 'package:instagramclone/src/actions/actions.dart';
 import 'package:instagramclone/src/models/app_user.dart';
 
-
 part 'registration.g.dart';
 
 abstract class Register //

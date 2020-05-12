@@ -18,7 +18,7 @@ class UsernamePart extends StatefulWidget {
 }
 
 class _UsernamePartState extends State<UsernamePart> {
-  bool isLoading=false;
+  bool isLoading = false;
 
   void _register(dynamic action) {
     if (action is RegisterSuccessful) {

@@ -116,11 +116,11 @@ class _EmailAndPhonePartState extends State<EmailAndPhonePart> with SingleTicker
                 ),
                 onChanged: (String value) {
                   if (isPhone) {
-                    info ??=  RegistrationInfo();
+                    info ??= RegistrationInfo();
                     final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.phone = value);
                     StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   } else {
-                    info ??=  RegistrationInfo();
+                    info ??= RegistrationInfo();
                     final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.email = value);
                     StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   }

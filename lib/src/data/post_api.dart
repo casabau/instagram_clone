@@ -22,8 +22,8 @@ class PostApi {
         .where('uid', isEqualTo: uid)
         .snapshots()
         .map((QuerySnapshot snapshot) => snapshot.documents //
-        .map((DocumentSnapshot document) => Post.fromJson(document.data))
-        .toList());
+            .map((DocumentSnapshot document) => Post.fromJson(document.data))
+            .toList());
   }
 
   Future<Post> create({@required String uid, @required String description, @required List<String> pictures}) async {

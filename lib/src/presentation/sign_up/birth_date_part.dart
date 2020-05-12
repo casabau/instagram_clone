@@ -141,7 +141,8 @@ class BirthDatePart extends StatelessWidget {
                     initialDateTime: DateTime.now(),
                     maximumDate: DateTime.now(),
                     onDateTimeChanged: (DateTime value) {
-                      final RegistrationInfo newInfo = info.rebuild((RegistrationInfoBuilder b) => b.birthDate = value.toUtc());
+                      final RegistrationInfo newInfo =
+                          info.rebuild((RegistrationInfoBuilder b) => b.birthDate = value.toUtc());
                       StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                     },
                   ),

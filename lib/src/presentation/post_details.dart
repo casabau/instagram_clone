@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:instagramclone/src/actions/create_post.dart';
-import 'package:instagramclone/src/actions/update_post_info.dart';
+import 'package:instagramclone/src/actions/posts/create_post.dart';
+import 'package:instagramclone/src/actions/posts/update_post_info.dart';
 import 'package:instagramclone/src/containers/save_post_info_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/models/save_post_info.dart';

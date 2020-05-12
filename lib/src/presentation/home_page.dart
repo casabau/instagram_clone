@@ -3,6 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/auth/logout.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/presentation/add_post_page.dart';
+import 'package:instagramclone/src/presentation/feed_part.dart';
+
+import 'add_post_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -37,9 +40,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       ),
       body: TabBarView(
         controller: tabController,
-        physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
-          Container(color: Colors.red),
+          const FeedPart(),
           Container(color: Colors.orange),
           Container(color: Colors.blue),
           Container(color: Colors.green),
@@ -48,45 +50,47 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
       bottomNavigationBar: BottomNavigationBar(
         onTap: (int index) {
           if (index == 2) {
-            print('Show post dialog');
             Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                    fullscreenDialog: true,
-                    builder: (BuildContext context) {
-                      return const AddPostPage();
-                    }));
+              context,
+              MaterialPageRoute<void>(
+                fullscreenDialog: true,
+                builder: (BuildContext context) {
+                  return const AddPostPage();
+                },
+              ),
+            );
           } else {
             setState(() => page = index);
             if (index > 2) {
               index--;
             }
+
             tabController.animateTo(index);
           }
         },
         currentIndex: page,
         selectedItemColor: Theme.of(context).accentColor,
         unselectedItemColor: Colors.white,
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: const Text('Home'),
+            title: Text('Home'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
-            title: const Text('Search'),
+            title: Text('Search'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.add_box),
-            title: const Text('Add post'),
+            title: Text('Add post'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.favorite_border),
-            title: const Text('Favorites'),
+            title: Text('Favorite'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline),
-            title: const Text('Profile'),
+            title: Text('Profile'),
           ),
         ],
       ),

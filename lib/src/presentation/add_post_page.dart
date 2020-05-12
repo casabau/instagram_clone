@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:instagramclone/src/actions/update_post_info.dart';
+import 'package:instagramclone/src/actions/posts/update_post_info.dart';
 import 'package:instagramclone/src/containers/save_post_info_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/models/save_post_info.dart';
@@ -91,10 +91,10 @@ class _AddPostPageState extends State<AddPostPage> with SingleTickerProviderStat
                     onPressed: () {
                       if (selectedCamera.lensDirection == CameraLensDirection.back) {
                         selectedCamera = cameras.firstWhere(
-                                (CameraDescription element) => element.lensDirection == CameraLensDirection.front);
+                            (CameraDescription element) => element.lensDirection == CameraLensDirection.front);
                       } else {
                         selectedCamera = cameras.firstWhere(
-                                (CameraDescription element) => element.lensDirection == CameraLensDirection.back);
+                            (CameraDescription element) => element.lensDirection == CameraLensDirection.back);
                       }
 
                       initializeCameraController();
@@ -136,7 +136,7 @@ class _AddPostPageState extends State<AddPostPage> with SingleTickerProviderStat
                       info = info.rebuild((SavePostInfoBuilder b) => b.pictures.add(path));
                       StoreProvider.of<AppState>(context).dispatch(UpdatePostInfo(info));
 
-                      await Navigator.pushNamed(context, '/postDetails');
+                      Navigator.pushNamed(context, '/postDetails');
                     },
                     child: Container(
                       width: 96.0,
