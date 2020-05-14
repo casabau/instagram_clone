@@ -3,7 +3,7 @@ library registration;
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/built_value.dart';
 import 'package:instagramclone/src/actions/actions.dart';
-import 'package:instagramclone/src/models/app_user.dart';
+import 'package:instagramclone/src/models/auth/app_user.dart';
 
 part 'registration.g.dart';
 

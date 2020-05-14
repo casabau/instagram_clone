@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagramclone/src/containers/user_container.dart';
-import 'package:instagramclone/src/models/app_user.dart';
+import 'package:instagramclone/src/models/auth/app_user.dart';
 import 'package:instagramclone/src/presentation/home_page.dart';
 import 'package:instagramclone/src/presentation/login_page.dart';
 

@@ -6,7 +6,7 @@ import 'package:instagramclone/src/actions/auth/send_sms.dart';
 import 'package:instagramclone/src/actions/auth/update_registration_info.dart';
 import 'package:instagramclone/src/containers/registration_info_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
-import 'package:instagramclone/src/models/registration_info.dart';
+import 'package:instagramclone/src/models/auth/registration_info.dart';
 import 'package:email_validator/email_validator.dart';
 
 enum RegisterType { email, phone }

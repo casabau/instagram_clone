@@ -6,9 +6,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/bootstrap.dart';
 import 'package:instagramclone/src/data/auth_api.dart';
+import 'package:instagramclone/src/data/comments_api.dart';
 import 'package:instagramclone/src/data/post_api.dart';
 import 'package:instagramclone/src/epics/app_epics.dart';
 import 'package:instagramclone/src/models/app_state.dart';
+import 'package:instagramclone/src/presentation/comments/comments_page.dart';
 import 'package:instagramclone/src/presentation/forgot_password.dart';
 import 'package:instagramclone/src/presentation/home.dart';
 import 'package:instagramclone/src/presentation/home_page.dart';
@@ -20,12 +22,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:redux/redux.dart';
 import 'package:redux_epics/redux_epics.dart';
 
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance);
   final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
-  final AppEpics epics = AppEpics(authApi: authApi, postApi: postApi);
+  final CommentsApi commentsApi = CommentsApi(firestore: Firestore.instance);
+  final AppEpics epics = AppEpics(authApi: authApi, postApi: postApi, commentsApi: commentsApi);
   final Store<AppState> store = Store<AppState>(
     reducer,
     initialState: AppState(),
@@ -67,6 +71,7 @@ class InstagramClone extends StatelessWidget {
           '/home': (_) => const HomePage(),
           '/forgotPassword': (_) => const ForgotPassword(),
           '/postDetails': (_) => const PostDetails(),
+          '/commentsPage': (_) => const CommentsPage(),
         },
       ),
     );

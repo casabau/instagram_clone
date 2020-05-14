@@ -2,11 +2,11 @@ import 'package:instagramclone/src/actions/actions.dart';
 import 'package:instagramclone/src/actions/auth/update_registration_info.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/reducer/auth_reducer.dart';
+import 'package:instagramclone/src/reducer/comments_reducer.dart';
 import 'package:instagramclone/src/reducer/post_reducer.dart';
 import 'package:redux/redux.dart';
 
 AppState reducer(AppState state, dynamic action) {
-  final AppState result = _reducer(state, action);
   if (action is ErrorAction) {
     final dynamic error = action.error;
     try {
@@ -15,10 +15,11 @@ AppState reducer(AppState state, dynamic action) {
     } catch (_) {}
   }
   print(action);
-  return result;
-}
 
-Reducer<AppState> _reducer = combineReducers<AppState>(<Reducer<AppState>>[
-  authReducer,
-  postReducer,
-]);
+  return state.rebuild((AppStateBuilder b) {
+    b
+      ..auth = authReducer(state.auth, action).toBuilder()
+      ..posts = postReducer(state.posts, action).toBuilder()
+      ..comments = commentsReducer(state.comments, action).toBuilder();
+  });
+}

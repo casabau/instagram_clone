@@ -2,7 +2,7 @@ library update_post_info;
 
 import 'package:built_value/built_value.dart';
 import 'package:instagramclone/src/actions/actions.dart';
-import 'package:instagramclone/src/models/save_post_info.dart';
+import 'package:instagramclone/src/models/posts/save_post_info.dart';
 
 part 'update_post_info.g.dart';
 

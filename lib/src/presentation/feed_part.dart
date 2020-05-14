@@ -3,9 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/posts/listen_for_posts.dart';
 import 'package:instagramclone/src/containers/posts_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
-import 'package:instagramclone/src/models/post.dart';
+import 'package:instagramclone/src/models/posts/post.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
+import 'package:instagramclone/src/actions/posts/set.dart';
 
 class FeedPart extends StatefulWidget {
   const FeedPart({Key key}) : super(key: key);
@@ -71,7 +72,10 @@ class _FeedPartState extends State<FeedPart> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.chat_bubble_outline),
-                        onPressed: () {},
+                        onPressed: () {
+                          StoreProvider.of<AppState>(context).dispatch(SetSelectedPost(post.id));
+                          Navigator.pushNamed(context, '/commentsPage');
+                        },
                       ),
                       IconButton(
                         icon: const Icon(Icons.send),

@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:instagramclone/src/models/app_user.dart';
-import 'package:instagramclone/src/models/registration_info.dart';
+import 'package:instagramclone/src/models/auth/app_user.dart';
+import 'package:instagramclone/src/models/auth/registration_info.dart';
 import 'package:meta/meta.dart';
 
 class AuthApi {

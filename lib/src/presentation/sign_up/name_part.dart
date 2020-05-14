@@ -6,7 +6,7 @@ import 'package:instagramclone/src/actions/auth/reserve_username.dart';
 import 'package:instagramclone/src/actions/auth/update_registration_info.dart';
 import 'package:instagramclone/src/containers/registration_info_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
-import 'package:instagramclone/src/models/registration_info.dart';
+import 'package:instagramclone/src/models/auth/registration_info.dart';
 
 class NamePart extends StatefulWidget {
   const NamePart({Key key, @required this.onNext}) : super(key: key);

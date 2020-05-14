@@ -2,7 +2,7 @@ library update_registration_info;
 
 import 'package:built_value/built_value.dart';
 import 'package:instagramclone/src/actions/actions.dart';
-import 'package:instagramclone/src/models/registration_info.dart';
+import 'package:instagramclone/src/models/auth/registration_info.dart';
 
 part 'update_registration_info.g.dart';
 

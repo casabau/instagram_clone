@@ -1,4 +1,4 @@
-import 'package:instagramclone/src/models/app_user.dart';
+import 'package:instagramclone/src/models/auth/app_user.dart';
 
 abstract class AppAction {}
 

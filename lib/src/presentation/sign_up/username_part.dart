@@ -6,7 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/auth/registration.dart';
 import 'package:instagramclone/src/containers/registration_info_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
-import 'package:instagramclone/src/models/registration_info.dart';
+import 'package:instagramclone/src/models/auth/registration_info.dart';
 
 class UsernamePart extends StatefulWidget {
   const UsernamePart({Key key, @required this.onNext}) : super(key: key);
