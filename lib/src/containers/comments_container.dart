@@ -14,7 +14,10 @@ class CommentsContainer extends StatelessWidget {
     return StoreConnector<AppState, List<Comment>>(
       converter: (Store<AppState> store) {
         return store.state.comments.comments
+            //din toate posturile, da-mi doar commenturile pentru post-ul asta
             .where((Comment comment) => comment.postId == store.state.posts.selectedPostId)
+            //pentru astea, verifica-mi la care am contact
+            .where((Comment comment) => store.state.auth.contacts[comment.uid] != null)
             .toList();
       },
       builder: builder,

@@ -122,4 +122,9 @@ class AuthApi {
     final Random random = Random();
     return email.split('@')[0] + '${random.nextInt(1 << 32)}';
   }
+
+  Future<AppUser> getContact(String uid) async {
+    final DocumentSnapshot snapshot = await firestore.document('users/$uid').get();
+    return AppUser.fromJson(snapshot.data);
+  }
 }

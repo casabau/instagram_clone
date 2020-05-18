@@ -39,8 +39,10 @@ class AppEpics {
 
   Stream<AppAction> _bootstrap(Stream<Bootstrap> actions, EpicStore<AppState> store) {
     return actions //
-        .asyncMap((Bootstrap action) => _authApi.getUser())
-        .map<AppAction>((AppUser user) => BootstrapSuccessful(user))
-        .onErrorReturnWith((dynamic error) => BootstrapError(error));
+        .flatMap((Bootstrap action) => _authApi
+            .getUser()
+            .asStream()
+            .map<AppAction>((AppUser user) => BootstrapSuccessful(user))
+            .onErrorReturnWith((dynamic error) => BootstrapError(error)));
   }
 }

@@ -8,7 +8,7 @@ import 'package:instagramclone/src/models/serializers.dart';
 
 part 'post.g.dart';
 
-abstract class Post implements Built<Post, PostBuilder> {
+abstract class Post implements Built<Post, PostBuilder>, Comparable<Post> {
   factory Post({
     @required String id,
     @required String uid,
@@ -41,6 +41,11 @@ abstract class Post implements Built<Post, PostBuilder> {
   DateTime get createdAt;
 
   BuiltList<String> get pictures;
+
+  @override
+  int compareTo(Post other) {
+    return other.createdAt.compareTo(createdAt);
+  }
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

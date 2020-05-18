@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:instagramclone/src/actions/actions.dart';
+import 'package:instagramclone/src/actions/auth/get_contact.dart';
 import 'package:instagramclone/src/actions/auth/login.dart';
 import 'package:instagramclone/src/actions/auth/logout.dart';
 import 'package:instagramclone/src/actions/auth/reserve_username.dart';
@@ -27,6 +28,7 @@ class AuthEpics {
       TypedEpic<AppState, Register>(_signUp),
       TypedEpic<AppState, ReserveUsername>(_reserveUsername),
       TypedEpic<AppState, SendSms>(_sendSms),
+      TypedEpic<AppState, GetContact>(_getContact),
     ]);
   }
 
@@ -85,5 +87,14 @@ class AuthEpics {
             .map<AppAction>((String verificationId) => SendSmsSuccessful(verificationId))
             .onErrorReturnWith((dynamic error) => SendSmsError(error))
             .doOnData(action.result));
+  }
+
+  Stream<AppAction> _getContact(Stream<GetContact> actions, EpicStore<AppState> store) {
+    return actions //
+        .flatMap((GetContact action) => _authApi
+            .getContact(action.uid)
+            .asStream()
+            .map<AppAction>((AppUser user) => GetContactSuccessful(user))
+            .onErrorReturnWith((dynamic error) => GetContactError(error)));
   }
 }

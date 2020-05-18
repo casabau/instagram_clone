@@ -1,4 +1,5 @@
 import 'package:instagramclone/src/actions/actions.dart';
+import 'package:instagramclone/src/actions/auth/get_contact.dart';
 import 'package:instagramclone/src/actions/posts/create_post.dart';
 import 'package:instagramclone/src/actions/posts/listen_for_posts.dart';
 import 'package:instagramclone/src/data/post_api.dart';
@@ -42,7 +43,17 @@ class PostEpics {
         .whereType<ListenForPosts>()
         .flatMap((ListenForPosts action) => _postApi
             .listen(store.state.auth.user.uid)
-            .map<AppAction>((List<Post> posts) => OnPostsEvent(posts))
+            .expand<AppAction>((List<Post> posts) {
+              return <AppAction>[
+                OnPostsEvent(posts),
+                //avem posturile (care au venit acuma). Pentru fiecare uid din contacts chem un GetContact(),
+                //bazandu-ma pe uid-ul din post si ii zic toSet() ca sa am userul o singura data (sa nu fac GetContact de 1000 de ori)
+                ...posts //spread operator (...)
+                    .where((Post post) => store.state.auth.contacts[post.uid] == null)  //doar posturile a caror uid nu le am la contacte
+                    .map((Post post) => GetContact(post.uid))
+                    .toSet(),
+              ];
+            })
             .takeUntil(actions.whereType<StopListeningForPosts>())
             .onErrorReturnWith((dynamic error) => ListenForPostsError(error)));
   }

@@ -1,4 +1,5 @@
 import 'package:instagramclone/src/actions/actions.dart';
+import 'package:instagramclone/src/actions/auth/get_contact.dart';
 import 'package:instagramclone/src/actions/comments/create_comment.dart';
 import 'package:instagramclone/src/data/comments_api.dart';
 import 'package:instagramclone/src/models/app_state.dart';
@@ -42,7 +43,17 @@ class CommentsEpics {
         .whereType<ListenForComments>()
         .flatMap((ListenForComments action) => _api
             .listen(store.state.posts.selectedPostId)
-            .map<AppAction>((List<Comment> comments) => OnCommentsEvent(comments))
+            .expand<AppAction>((List<Comment> comments) {
+              return <AppAction>[
+                OnCommentsEvent(comments),
+                ...comments
+                    //da-mi toate commenturile pentru care nu am user
+                    .where((Comment comment) => store.state.auth.contacts[comment.uid] == null)
+                    //si da-mi user
+                    .map((e) => GetContact(e.uid))
+                    .toSet(),
+              ];
+            })
             .takeUntil(actions.whereType<StopListenForComments>())
             .onErrorReturnWith((dynamic error) => ListenForCommentsError(error)));
   }

@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/actions/comments/create_comment.dart';
 import 'package:instagramclone/src/containers/comments_container.dart';
+import 'package:instagramclone/src/containers/contacts_container.dart';
 import 'package:instagramclone/src/containers/selected_post_container.dart';
 import 'package:instagramclone/src/models/app_state.dart';
 import 'package:instagramclone/src/models/comments/comment.dart';
 import 'package:instagramclone/src/models/posts/post.dart';
 import 'package:redux/redux.dart';
 import 'package:instagramclone/src/actions/comments/listen_for_comments.dart';
+import 'package:instagramclone/src/models/auth/app_user.dart';
 
 class CommentsPage extends StatefulWidget {
   const CommentsPage({Key key}) : super(key: key);
@@ -56,20 +58,24 @@ class _CommentsPageState extends State<CommentsPage> {
           body: Column(
             children: <Widget>[
               Flexible(
-                child: CommentsContainer(
-                  builder: (BuildContext context, List<Comment> comments) {
-                    return ListView.builder(
-                      itemCount: comments.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        final Comment comment = comments[index];
-                        return ListTile(
-                          title: Text(comment.text),
-                          subtitle: Text(comment.createdAt.toIso8601String()),
-                        );
-                      },
-                    );
-                  },
-                ),
+                child: ContactsContainer(builder: (BuildContext context, Map<String, AppUser> contacts) {
+                  return CommentsContainer(
+                    builder: (BuildContext context, List<Comment> comments) {
+                      return ListView.builder(
+                        itemCount: comments.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final Comment comment = comments[index];
+                          // vreau userul care a facut commentul asta
+                          final AppUser user = contacts[comment.uid];
+                          return ListTile(
+                            title: Text(user.phone),
+                            subtitle: Text(comment.text),
+                          );
+                        },
+                      );
+                    },
+                  );
+                }),
               ),
               const Divider(),
               Form(
