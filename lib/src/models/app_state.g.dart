@@ -27,6 +27,12 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
       'comments',
       serializers.serialize(object.comments,
           specifiedType: const FullType(CommentsState)),
+      'type',
+      serializers.serialize(object.type,
+          specifiedType: const FullType(LikeType)),
+      'likes',
+      serializers.serialize(object.likes,
+          specifiedType: const FullType(LikesState)),
     ];
 
     return result;
@@ -55,6 +61,14 @@ class _$AppStateSerializer implements StructuredSerializer<AppState> {
           result.comments.replace(serializers.deserialize(value,
               specifiedType: const FullType(CommentsState)) as CommentsState);
           break;
+        case 'type':
+          result.type = serializers.deserialize(value,
+              specifiedType: const FullType(LikeType)) as LikeType;
+          break;
+        case 'likes':
+          result.likes.replace(serializers.deserialize(value,
+              specifiedType: const FullType(LikesState)) as LikesState);
+          break;
       }
     }
 
@@ -69,11 +83,16 @@ class _$AppState extends AppState {
   final PostsState posts;
   @override
   final CommentsState comments;
+  @override
+  final LikeType type;
+  @override
+  final LikesState likes;
 
   factory _$AppState([void Function(AppStateBuilder) updates]) =>
       (new AppStateBuilder()..update(updates)).build();
 
-  _$AppState._({this.auth, this.posts, this.comments}) : super._() {
+  _$AppState._({this.auth, this.posts, this.comments, this.type, this.likes})
+      : super._() {
     if (auth == null) {
       throw new BuiltValueNullFieldError('AppState', 'auth');
     }
@@ -82,6 +101,12 @@ class _$AppState extends AppState {
     }
     if (comments == null) {
       throw new BuiltValueNullFieldError('AppState', 'comments');
+    }
+    if (type == null) {
+      throw new BuiltValueNullFieldError('AppState', 'type');
+    }
+    if (likes == null) {
+      throw new BuiltValueNullFieldError('AppState', 'likes');
     }
   }
 
@@ -98,13 +123,17 @@ class _$AppState extends AppState {
     return other is AppState &&
         auth == other.auth &&
         posts == other.posts &&
-        comments == other.comments;
+        comments == other.comments &&
+        type == other.type &&
+        likes == other.likes;
   }
 
   @override
   int get hashCode {
-    return $jf(
-        $jc($jc($jc(0, auth.hashCode), posts.hashCode), comments.hashCode));
+    return $jf($jc(
+        $jc($jc($jc($jc(0, auth.hashCode), posts.hashCode), comments.hashCode),
+            type.hashCode),
+        likes.hashCode));
   }
 
   @override
@@ -112,7 +141,9 @@ class _$AppState extends AppState {
     return (newBuiltValueToStringHelper('AppState')
           ..add('auth', auth)
           ..add('posts', posts)
-          ..add('comments', comments))
+          ..add('comments', comments)
+          ..add('type', type)
+          ..add('likes', likes))
         .toString();
   }
 }
@@ -133,6 +164,14 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
       _$this._comments ??= new CommentsStateBuilder();
   set comments(CommentsStateBuilder comments) => _$this._comments = comments;
 
+  LikeType _type;
+  LikeType get type => _$this._type;
+  set type(LikeType type) => _$this._type = type;
+
+  LikesStateBuilder _likes;
+  LikesStateBuilder get likes => _$this._likes ??= new LikesStateBuilder();
+  set likes(LikesStateBuilder likes) => _$this._likes = likes;
+
   AppStateBuilder();
 
   AppStateBuilder get _$this {
@@ -140,6 +179,8 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
       _auth = _$v.auth?.toBuilder();
       _posts = _$v.posts?.toBuilder();
       _comments = _$v.comments?.toBuilder();
+      _type = _$v.type;
+      _likes = _$v.likes?.toBuilder();
       _$v = null;
     }
     return this;
@@ -166,7 +207,9 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
           new _$AppState._(
               auth: auth.build(),
               posts: posts.build(),
-              comments: comments.build());
+              comments: comments.build(),
+              type: type,
+              likes: likes.build());
     } catch (_) {
       String _$failedField;
       try {
@@ -176,6 +219,9 @@ class AppStateBuilder implements Builder<AppState, AppStateBuilder> {
         posts.build();
         _$failedField = 'comments';
         comments.build();
+
+        _$failedField = 'likes';
+        likes.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             'AppState', _$failedField, e.toString());

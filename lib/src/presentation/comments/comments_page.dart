@@ -20,7 +20,6 @@ class CommentsPage extends StatefulWidget {
 
 class _CommentsPageState extends State<CommentsPage> {
   final TextEditingController controller = TextEditingController();
-
   Store<AppState> store;
 
   @override
@@ -49,72 +48,76 @@ class _CommentsPageState extends State<CommentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return SelectedPostContainer(
-      builder: (BuildContext context, Post post) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(post.id),
-          ),
-          body: Column(
-            children: <Widget>[
-              Flexible(
-                child: ContactsContainer(builder: (BuildContext context, Map<String, AppUser> contacts) {
-                  return CommentsContainer(
-                    builder: (BuildContext context, List<Comment> comments) {
-                      return ListView.builder(
-                        itemCount: comments.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final Comment comment = comments[index];
-                          // vreau userul care a facut commentul asta
-                          final AppUser user = contacts[comment.uid];
-                          return ListTile(
-                            title: Text(user.phone),
-                            subtitle: Text(comment.text),
-                          );
-                        },
-                      );
-                    },
-                  );
-                }),
+    return ContactsContainer(
+      builder: (BuildContext context, Map<String, AppUser> contacts) {
+        return SelectedPostContainer(
+          builder: (BuildContext context, Post post) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text(contacts[post.uid].displayName),
               ),
-              const Divider(),
-              Form(
-                child: SafeArea(
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 16.0),
-                    padding: const EdgeInsetsDirectional.only(bottom: 16.0),
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child: TextFormField(
-                            controller: controller,
-                            validator: (String value) {
-                              if (value.isEmpty) {
-                                return 'Try a longer comment.';
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                        Builder(
-                          builder: (BuildContext context) {
-                            return IconButton(
-                              icon: const Icon(Icons.send),
-                              onPressed: () {
-                                if (Form.of(context).validate()) {
-                                  StoreProvider.of<AppState>(context).dispatch(CreateComment(controller.text, _result));
-                                }
-                              },
+              body: Column(
+                children: <Widget>[
+                  Flexible(
+                    child: CommentsContainer(
+                      builder: (BuildContext context, List<Comment> comments) {
+                        return ListView.builder(
+                          itemCount: comments.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final Comment comment = comments[index];
+                            final AppUser user = contacts[comment.uid];
+
+                            return ListTile(
+                              title: Text(user.displayName),
+                              subtitle: Text(comment.text),
                             );
                           },
-                        ),
-                      ],
+                        );
+                      },
                     ),
                   ),
-                ),
+                  const Divider(),
+                  Form(
+                    child: SafeArea(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 16.0),
+                        padding: const EdgeInsetsDirectional.only(bottom: 16.0),
+                        child: Row(
+                          children: <Widget>[
+                            Flexible(
+                              child: TextFormField(
+                                controller: controller,
+                                validator: (String value) {
+                                  if (value.isEmpty) {
+                                    return 'Try a longer comment.';
+                                  }
+
+                                  return null;
+                                },
+                              ),
+                            ),
+                            Builder(
+                              builder: (BuildContext context) {
+                                return IconButton(
+                                  icon: const Icon(Icons.send),
+                                  onPressed: () {
+                                    if (Form.of(context).validate()) {
+                                      StoreProvider.of<AppState>(context)
+                                          .dispatch(CreateComment(controller.text, _result));
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

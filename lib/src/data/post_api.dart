@@ -44,4 +44,12 @@ class PostApi {
     await reference.setData(post.json);
     return post;
   }
+
+  Future<void> updateLikes({@required String postId, @required bool like}) async {
+    await _firestore.document('posts/$postId').updateData(
+      <String, dynamic>{
+        'likes': FieldValue.increment(like ? 1 : -1),
+      },
+    );
+  }
 }
