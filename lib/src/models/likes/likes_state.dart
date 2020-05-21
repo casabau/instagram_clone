@@ -15,7 +15,11 @@ abstract class LikesState implements Built<LikesState, LikesStateBuilder> {
 
   LikesState._();
 
+  // postId => like
   BuiltMap<String, BuiltList<Like>> get posts;
+
+  // commentId => like
+  BuiltMap<String, BuiltList<Like>> get comments;
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

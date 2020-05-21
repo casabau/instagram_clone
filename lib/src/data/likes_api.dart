@@ -4,22 +4,13 @@ import 'package:instagramclone/src/models/likes/like_type.dart';
 import 'package:instagramclone/src/models/posts/post.dart';
 import 'package:meta/meta.dart';
 
-class PostApi {
-  const PostApi({@required Firestore firestore})
+class LikesApi {
+  const LikesApi({@required Firestore firestore})
       : assert(firestore != null),
         _firestore = firestore;
 
   final Firestore _firestore;
 
-  Stream<List<Post>> listen(String uid) {
-    return _firestore //
-        .collection('posts')
-        .where('uid', isEqualTo: uid)
-        .snapshots()
-        .map((QuerySnapshot snapshot) => snapshot.documents //
-            .map((DocumentSnapshot document) => Post.fromJson(document.data))
-            .toList());
-  }
 // 1. Create like
   Future<Like> create({
     @required String parentId,
