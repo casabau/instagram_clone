@@ -14,8 +14,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:instagramclone/src/epics/likes_epics.dart';
 import 'package:instagramclone/src/data/likes_api.dart';
 
-
-
 class AppEpics {
   const AppEpics({
     @required AuthApi authApi,
@@ -46,12 +44,12 @@ class AppEpics {
     ]);
   }
 
-  Stream<AppAction> _bootstrap (Stream<Bootstrap> actions, EpicStore<AppState> store) {
+  Stream<AppAction> _bootstrap(Stream<Bootstrap> actions, EpicStore<AppState> store) {
     return actions //
         .flatMap((Bootstrap action) => _authApi
-        .getUser()
-        .asStream()
-        .map<AppAction>((AppUser user) => BootstrapSuccessful(user))
-        .onErrorReturnWith((dynamic error) => BootstrapError(error)));
+            .getUser()
+            .asStream()
+            .map<AppAction>((AppUser user) => BootstrapSuccessful(user))
+            .onErrorReturnWith((dynamic error) => BootstrapError(error)));
   }
 }

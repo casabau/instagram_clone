@@ -9,7 +9,6 @@ import 'package:instagramclone/src/models/likes/likes_state.dart';
 import 'package:instagramclone/src/models/serializers.dart';
 import 'package:instagramclone/src/models/posts/posts_state.dart';
 
-
 part 'app_state.g.dart';
 
 abstract class AppState implements Built<AppState, AppStateBuilder> {
@@ -25,10 +24,7 @@ abstract class AppState implements Built<AppState, AppStateBuilder> {
 
   CommentsState get comments;
 
-  LikeType get type;
-
   LikesState get likes;
-
 
   Map<String, dynamic> get json => serializers.serializeWith(serializer, this);
 

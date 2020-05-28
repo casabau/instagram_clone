@@ -8,6 +8,7 @@ import 'package:instagramclone/src/models/posts/post.dart';
 import 'package:meta/meta.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:instagramclone/src/actions/likes/get_likes.dart';
 
 class PostEpics {
   const PostEpics({
@@ -49,8 +50,13 @@ class PostEpics {
                 //avem posturile (care au venit acuma). Pentru fiecare uid din contacts chem un GetContact(),
                 //bazandu-ma pe uid-ul din post si ii zic toSet() ca sa am userul o singura data (sa nu fac GetContact de 1000 de ori)
                 ...posts //spread operator (...)
-                    .where((Post post) => store.state.auth.contacts[post.uid] == null)  //doar posturile a caror uid nu le am la contacte
+                    .where((Post post) =>
+                        store.state.auth.contacts[post.uid] == null) //doar posturile a caror uid nu le am la contacte
                     .map((Post post) => GetContact(post.uid))
+                    .toSet(),
+                ...posts //
+                    .where((Post post) => store.state.likes.posts[post.id] == null)
+                    .map((Post post) => GetLikes(post.id))
                     .toSet(),
               ];
             })

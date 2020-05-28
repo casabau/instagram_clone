@@ -8,6 +8,7 @@ import 'package:meta/meta.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:instagramclone/src/actions/comments/listen_for_comments.dart';
+import 'package:instagramclone/src/actions/likes/get_likes.dart';
 
 class CommentsEpics {
   const CommentsEpics({
@@ -51,6 +52,10 @@ class CommentsEpics {
                     .where((Comment comment) => store.state.auth.contacts[comment.uid] == null)
                     //si da-mi user
                     .map((e) => GetContact(e.uid))
+                    .toSet(),
+                ...comments
+                    .where((Comment comment) => store.state.likes.comments[comment.id] == null)
+                    .map((Comment comment) => GetLikes(comment.id))
                     .toSet(),
               ];
             })

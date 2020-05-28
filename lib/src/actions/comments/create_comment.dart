@@ -10,7 +10,7 @@ abstract class CreateComment //
     implements
         Built<CreateComment, CreateCommentBuilder>,
         AppAction //
-    {
+{
   factory CreateComment(String text, ActionResult result) {
     return _$CreateComment((CreateCommentBuilder b) {
       b
@@ -30,7 +30,7 @@ abstract class CreateCommentSuccessful //
     implements
         Built<CreateCommentSuccessful, CreateCommentSuccessfulBuilder>,
         AppAction //
-    {
+{
   factory CreateCommentSuccessful(Comment comment) {
     return _$CreateCommentSuccessful((CreateCommentSuccessfulBuilder b) {
       b.comment = comment.toBuilder();
@@ -46,7 +46,7 @@ abstract class CreateCommentError //
     implements
         Built<CreateCommentError, CreateCommentErrorBuilder>,
         ErrorAction //
-    {
+{
   factory CreateCommentError(Object error) {
     return _$CreateCommentError((CreateCommentErrorBuilder b) => b.error = error);
   }

@@ -11,7 +11,7 @@ abstract class CreateLike //
     implements
         Built<CreateLike, CreateLikeBuilder>,
         AppAction //
-    {
+{
   factory CreateLike(String parentId, LikeType type) {
     return _$CreateLike((CreateLikeBuilder b) {
       b
@@ -31,7 +31,7 @@ abstract class CreateLikeSuccessful //
     implements
         Built<CreateLikeSuccessful, CreateLikeSuccessfulBuilder>,
         AppAction //
-    {
+{
   factory CreateLikeSuccessful(Like like) {
     return _$CreateLikeSuccessful((CreateLikeSuccessfulBuilder b) => b.like = like.toBuilder());
   }
@@ -46,7 +46,7 @@ abstract class CreateLikeError //
         Built<CreateLikeError, CreateLikeErrorBuilder>,
         AppAction,
         ErrorAction //
-    {
+{
   factory CreateLikeError(Object error) {
     return _$CreateLikeError((CreateLikeErrorBuilder b) => b.error = error);
   }

@@ -34,13 +34,11 @@ class _$LikeTypeSerializer implements PrimitiveSerializer<LikeType> {
   final String wireName = 'LikeType';
 
   @override
-  Object serialize(Serializers serializers, LikeType object,
-          {FullType specifiedType = FullType.unspecified}) =>
+  Object serialize(Serializers serializers, LikeType object, {FullType specifiedType = FullType.unspecified}) =>
       object.name;
 
   @override
-  LikeType deserialize(Serializers serializers, Object serialized,
-          {FullType specifiedType = FullType.unspecified}) =>
+  LikeType deserialize(Serializers serializers, Object serialized, {FullType specifiedType = FullType.unspecified}) =>
       LikeType.valueOf(serialized as String);
 }
 

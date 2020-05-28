@@ -11,7 +11,7 @@ abstract class ListenForComments //
     implements
         Built<ListenForComments, ListenForCommentsBuilder>,
         AppAction //
-    {
+{
   factory ListenForComments([void Function(ListenForCommentsBuilder b) updates]) = _$ListenForComments;
 
   ListenForComments._();
@@ -21,7 +21,7 @@ abstract class StopListenForComments //
     implements
         Built<StopListenForComments, StopListenForCommentsBuilder>,
         AppAction //
-    {
+{
   factory StopListenForComments([void Function(StopListenForCommentsBuilder b) updates]) = _$StopListenForComments;
 
   StopListenForComments._();
@@ -31,7 +31,7 @@ abstract class OnCommentsEvent //
     implements
         Built<OnCommentsEvent, OnCommentsEventBuilder>,
         AppAction //
-    {
+{
   factory OnCommentsEvent(List<Comment> comments) {
     return _$OnCommentsEvent((OnCommentsEventBuilder b) {
       b.comments = ListBuilder<Comment>(comments);
@@ -47,7 +47,7 @@ abstract class ListenForCommentsError //
     implements
         Built<ListenForCommentsError, ListenForCommentsErrorBuilder>,
         ErrorAction //
-    {
+{
   factory ListenForCommentsError(Object error) {
     return _$ListenForCommentsError((ListenForCommentsErrorBuilder b) => b.error = error);
   }

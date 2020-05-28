@@ -21,8 +21,8 @@ import 'package:instagramclone/src/presentation/sign_up/signup_page.dart';
 import 'package:instagramclone/src/reducer/reducer.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:redux/redux.dart';
+import 'package:instagramclone/src/presentation/profile/users_lists.dart';
 import 'package:redux_epics/redux_epics.dart';
-
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,6 +75,7 @@ class InstagramClone extends StatelessWidget {
           '/forgotPassword': (_) => const ForgotPassword(),
           '/postDetails': (_) => const PostDetails(),
           '/commentsPage': (_) => const CommentsPage(),
+          '/usersList': (_) => const UsersList(),
         },
       ),
     );

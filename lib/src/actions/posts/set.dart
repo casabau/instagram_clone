@@ -10,7 +10,7 @@ abstract class SetSelectedPost //
     implements
         Built<SetSelectedPost, SetSelectedPostBuilder>,
         AppAction //
-    {
+{
   factory SetSelectedPost(String postId) {
     return _$SetSelectedPost((SetSelectedPostBuilder b) => b.postId = postId);
   }

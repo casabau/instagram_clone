@@ -16,7 +16,6 @@ import 'package:instagramclone/src/models/auth/auth_state.dart';
 import 'package:instagramclone/src/models/comments/comment.dart';
 import 'package:instagramclone/src/models/comments/comments_state.dart';
 
-
 part 'serializers.g.dart';
 
 @SerializersFor(<Type>[

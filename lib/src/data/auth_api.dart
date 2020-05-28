@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'package:built_collection/built_collection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:instagramclone/src/models/auth/app_user.dart';
@@ -88,7 +89,8 @@ class AuthApi {
         ..username = info.username
         ..email = info.email
         ..birthDate = info.birthDate
-        ..phone = info.phone;
+        ..phone = info.phone
+        ..following = ListBuilder<String>();
     });
 
     await firestore.document('users/${user.uid}').setData(user.json);

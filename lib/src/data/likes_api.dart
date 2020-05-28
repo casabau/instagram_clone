@@ -11,6 +11,18 @@ class LikesApi {
 
   final Firestore _firestore;
 
+  Future<List<Like>> getLikes(String parentId) async {
+    final QuerySnapshot snapshot = await _firestore //
+        .collection('likes')
+        .where('parentId', isEqualTo: parentId)
+        .getDocuments();
+
+    return snapshot //
+        .documents
+        .map((DocumentSnapshot snapshot) => Like.fromJson(snapshot.data))
+        .toList();
+  }
+
 // 1. Create like
   Future<Like> create({
     @required String parentId,
@@ -29,20 +41,13 @@ class LikesApi {
     // 2. Save like
     await documentRef.setData(like.json);
 
-    // 3. Update likes count
-
-    String parent;
-    if(type == LikeType.post){
-      parent = 'posts';
-    } else if (type == LikeType.comment){
-      parent = 'comments';
-    }else {
-      throw ArgumentError('This parent does not exists $type');
-    }
-    final DocumentReference parentRef = _firestore.document('posts/$parentId/likes');
-
-    await parentRef.updateData(<String, dynamic>{'likes': FieldValue.increment(1)});
-
     return like;
   }
+
+  Future<void> delete(String likeId) async {
+    final DocumentReference documentRef = _firestore.document('likes/$likeId');
+    await documentRef.delete();
+  }
 }
+// 1. update rules to allow this operation
+// 2. used admin sdk to increment the field

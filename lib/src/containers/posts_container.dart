@@ -14,10 +14,10 @@ class PostsContainer extends StatelessWidget {
     return StoreConnector<AppState, List<Post>>(
       converter: (Store<AppState> store) {
         return store.state.posts.posts.values
-        // vrem sa luam doar postarile la care am contactul, ca daca nu avem contact, nu avem ce arata
+            // vrem sa luam doar postarile la care am contactul, ca daca nu avem contact, nu avem ce arata
             .where((Post post) => store.state.auth.contacts[post.uid] != null)
             .toList()
-          ..sort();
+              ..sort();
       },
       builder: builder,
     );
