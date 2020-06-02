@@ -10,48 +10,56 @@ import 'package:algolia/algolia.dart';
 
 
 class AuthApi {
-  const AuthApi({@required this.auth, @required this.firestore, @required this.index});
+  const AuthApi({
+    @required FirebaseAuth auth,
+    @required Firestore firestore,
+    @required AlgoliaIndexReference index,
+  })  : assert(auth != null),
+        assert(firestore != null),
+        assert(index != null),
+        _auth = auth,
+        _firestore = firestore,
+        _index = index;
 
-
-  final FirebaseAuth auth;
-  final Firestore firestore;
-  final AlgoliaIndexReference index;
+  final FirebaseAuth _auth;
+  final Firestore _firestore;
+  final AlgoliaIndexReference _index;
 
   /// Returns the current login in user or null if there is no user logged in.
   Future<AppUser> getUser() async {
-    final FirebaseUser firebaseUser = await auth.currentUser();
+    final FirebaseUser firebaseUser = await _auth.currentUser();
     return _buildUser(firebaseUser);
   }
 
   /// Tries to log the user in using his email and password
   Future<AppUser> login(String email, String password) async {
-    final AuthResult result = await auth.signInWithEmailAndPassword(email: email, password: password);
+    final AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
     return _buildUser(result.user);
   }
 
   /// Logs the user out
   Future<void> logOut() async {
-    await auth.signOut();
+    await _auth.signOut();
   }
 
   /// Send the reset password link to the [email]
   Future<void> sendForgotPasswordEmail(String email) async {
-    await auth.sendPasswordResetEmail(email: email);
+    await _auth.sendPasswordResetEmail(email: email);
   }
 
   /// Create new user with email and password
   Future<AppUser> signUp(RegistrationInfo info) async {
     AuthResult result;
     if (info.email != null) {
-      result = await auth.createUserWithEmailAndPassword(email: info.email, password: info.password);
+      result = await _auth.createUserWithEmailAndPassword(email: info.email, password: info.password);
     } else {
       assert(info.phone != null);
       assert(info.verificationId != null);
       assert(info.smsCode != null);
 
       final AuthCredential credential =
-          PhoneAuthProvider.getCredential(verificationId: info.verificationId, smsCode: info.smsCode);
-      result = await auth.signInWithCredential(credential);
+      PhoneAuthProvider.getCredential(verificationId: info.verificationId, smsCode: info.smsCode);
+      result = await _auth.signInWithCredential(credential);
     }
 
     return _buildUser(result.user, info);
@@ -61,7 +69,7 @@ class AuthApi {
   Future<String> sendSms(String phone) async {
     final Completer<String> completer = Completer<String>();
 
-    await auth.verifyPhoneNumber(
+    await _auth.verifyPhoneNumber(
       phoneNumber: '+4$phone',
       timeout: Duration.zero,
       verificationCompleted: (_) {},
@@ -80,7 +88,7 @@ class AuthApi {
       return null;
     }
 
-    final DocumentSnapshot snapshot = await firestore.document('users/${firebaseUser.uid}').get();
+    final DocumentSnapshot snapshot = await _firestore.document('users/${firebaseUser.uid}').get();
     if (snapshot.exists && info == null) {
       return AppUser.fromJson(snapshot.data);
     }
@@ -97,7 +105,7 @@ class AuthApi {
         ..following = ListBuilder<String>();
     });
 
-    await firestore.document('users/${user.uid}').setData(user.json);
+    await _firestore.document('users/${user.uid}').setData(user.json);
     return user;
   }
 
@@ -105,7 +113,7 @@ class AuthApi {
     if (email != null) {
       final String username = email.split('@')[0];
 
-      final QuerySnapshot snapshot = await firestore
+      final QuerySnapshot snapshot = await _firestore
           .collection('users') //
           .where('username', isEqualTo: username)
           .getDocuments();
@@ -115,8 +123,8 @@ class AuthApi {
       }
     }
 
-    final String username = displayName.split(' ').join('.').toLowerCase();
-    final QuerySnapshot snapshot = await firestore
+    String username = displayName.split(' ').join('.').toLowerCase();
+    final QuerySnapshot snapshot = await _firestore
         .collection('users') //
         .where('username', isEqualTo: username)
         .getDocuments();
@@ -126,16 +134,21 @@ class AuthApi {
     }
 
     final Random random = Random();
-    return email.split('@')[0] + '${random.nextInt(1 << 32)}';
+    if (email != null) {
+      username = email.split('@')[0] + '${random.nextInt(1 << 32)}';
+    } else {
+      username = displayName.split(' ').join('.') + '${random.nextInt(1 << 32)}';
+    }
+    return username;
   }
 
   Future<AppUser> getContact(String uid) async {
-    final DocumentSnapshot snapshot = await firestore.document('users/$uid').get();
+    final DocumentSnapshot snapshot = await _firestore.document('users/$uid').get();
     return AppUser.fromJson(snapshot.data);
   }
 
   Future<List<AppUser>> searchUsers(String query) async {
-    final AlgoliaQuerySnapshot result = await index.search(query).getObjects();
+    final AlgoliaQuerySnapshot result = await _index.search(query).getObjects();
 
     if (result.empty) {
       return <AppUser>[];
