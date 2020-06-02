@@ -13,6 +13,7 @@ import 'package:instagramclone/src/models/auth/app_user.dart';
 import 'package:meta/meta.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:instagramclone/src/actions/auth/search_users.dart';
 
 class AuthEpics {
   const AuthEpics({@required AuthApi authApi})
@@ -29,6 +30,7 @@ class AuthEpics {
       TypedEpic<AppState, ReserveUsername>(_reserveUsername),
       TypedEpic<AppState, SendSms>(_sendSms),
       TypedEpic<AppState, GetContact>(_getContact),
+      TypedEpic<AppState, SearchUsers>(_searchUsers),
     ]);
   }
 
@@ -102,5 +104,15 @@ class AuthEpics {
             .asStream()
             .map<AppAction>((AppUser user) => GetContactSuccessful(user))
             .onErrorReturnWith((dynamic error) => GetContactError(error)));
+  }
+
+  Stream<AppAction> _searchUsers(Stream<SearchUsers> actions, EpicStore<AppState> store) {
+    return actions //
+        .debounceTime(const Duration(milliseconds: 500))
+        .switchMap((SearchUsers action) => _authApi
+        .searchUsers(action.query)
+        .asStream()
+        .map<AppAction>((List<AppUser> users) => SearchUsersSuccessful(users))
+        .onErrorReturnWith((dynamic error) => SearchUsersError(error)));
   }
 }

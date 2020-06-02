@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:instagramclone/src/models/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:instagramclone/src/models/auth/app_user.dart';
+import 'package:redux/redux.dart';
 
 class FollowingContainer extends StatelessWidget {
   const FollowingContainer({Key key, @required this.builder}) : super(key: key);

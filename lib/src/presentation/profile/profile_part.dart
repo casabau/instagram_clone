@@ -45,7 +45,7 @@ class ProfilePart extends StatelessWidget {
                       const SizedBox(height: 16.0),
                       Text(
                         user.displayName,
-                        style: Theme.of(context).textTheme.body1.copyWith(
+                        style: Theme.of(context).textTheme.bodyText1.copyWith(
                           fontWeight: FontWeight.bold,
                           fontSize: 16.0,
                         ),
