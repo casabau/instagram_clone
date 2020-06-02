@@ -14,6 +14,8 @@ import 'package:meta/meta.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:instagramclone/src/actions/auth/search_users.dart';
+import 'package:instagramclone/src/actions/auth/start_following.dart';
+import 'package:instagramclone/src/actions/auth/stop_following.dart';
 
 class AuthEpics {
   const AuthEpics({@required AuthApi authApi})
@@ -31,6 +33,8 @@ class AuthEpics {
       TypedEpic<AppState, SendSms>(_sendSms),
       TypedEpic<AppState, GetContact>(_getContact),
       TypedEpic<AppState, SearchUsers>(_searchUsers),
+      TypedEpic<AppState, StartFollowing>(_startFollowing),
+      TypedEpic<AppState, StopFollowing>(_stopFollowing),
     ]);
   }
 
@@ -110,9 +114,27 @@ class AuthEpics {
     return actions //
         .debounceTime(const Duration(milliseconds: 500))
         .switchMap((SearchUsers action) => _authApi
-        .searchUsers(action.query)
+        .searchUsers(query: action.query, uid: store.state.auth.user.uid)
         .asStream()
         .map<AppAction>((List<AppUser> users) => SearchUsersSuccessful(users))
         .onErrorReturnWith((dynamic error) => SearchUsersError(error)));
+  }
+
+  Stream<AppAction> _startFollowing(Stream<StartFollowing> actions, EpicStore<AppState> store) {
+    return actions //
+        .flatMap((StartFollowing action) => _authApi
+        .startFollowing(uid: store.state.auth.user.uid, followingUid: action.followingUid)
+        .asStream()
+        .map<AppAction>((_) => StartFollowingSuccessful(action.followingUid))
+        .onErrorReturnWith((dynamic error) => StartFollowingError(error)));
+  }
+
+  Stream<AppAction> _stopFollowing(Stream<StopFollowing> actions, EpicStore<AppState> store) {
+    return actions //
+        .flatMap((StopFollowing action) => _authApi
+        .stopFollowing(uid: store.state.auth.user.uid, followingUid: action.followingUid)
+        .asStream()
+        .map<AppAction>((_) => StopFollowingSuccessful(action.followingUid))
+        .onErrorReturnWith((dynamic error) => StopFollowingError(error)));
   }
 }

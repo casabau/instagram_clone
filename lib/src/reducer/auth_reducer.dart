@@ -3,7 +3,10 @@ import 'package:instagramclone/src/actions/auth/get_contact.dart';
 import 'package:instagramclone/src/actions/auth/logout.dart';
 import 'package:instagramclone/src/actions/auth/reserve_username.dart';
 import 'package:instagramclone/src/actions/auth/send_sms.dart';
+import 'package:instagramclone/src/actions/auth/start_following.dart';
+import 'package:instagramclone/src/actions/auth/stop_following.dart';
 import 'package:instagramclone/src/actions/auth/update_registration_info.dart';
+import 'package:instagramclone/src/models/auth/app_user.dart';
 import 'package:instagramclone/src/models/auth/auth_state.dart';
 import 'package:redux/redux.dart';
 import 'package:instagramclone/src/actions/auth/search_users.dart';
@@ -17,6 +20,8 @@ Reducer<AuthState> authReducer = combineReducers<AuthState>(<Reducer<AuthState>>
   TypedReducer<AuthState, SendSmsSuccessful>(_sendSmsSuccessful),
   TypedReducer<AuthState, GetContactSuccessful>(_getContactSuccessful),
   TypedReducer<AuthState, SearchUsersSuccessful>(_searchUsersSuccessful),
+  TypedReducer<AuthState, StartFollowingSuccessful>(_startFollowingSuccessful),
+  TypedReducer<AuthState, StopFollowingSuccessful>(_stopFollowingSuccessful),
 
 ]);
 
@@ -50,5 +55,17 @@ AuthState _getContactSuccessful(AuthState state, GetContactSuccessful action) {
 AuthState _searchUsersSuccessful(AuthState state, SearchUsersSuccessful action) {
   return state.rebuild((AuthStateBuilder b) {
     b.searchResult = action.users.toBuilder();
+  });
+}
+
+AuthState _startFollowingSuccessful(AuthState state, StartFollowingSuccessful action) {
+  return state.rebuild((AuthStateBuilder b) {
+    b.user = state.user.rebuild((AppUserBuilder b) => b.following.add(action.followingUid)).toBuilder();
+  });
+}
+
+AuthState _stopFollowingSuccessful(AuthState state, StopFollowingSuccessful action) {
+  return state.rebuild((AuthStateBuilder b) {
+    b.user = state.user.rebuild((AppUserBuilder b) => b.following.remove(action.followingUid)).toBuilder();
   });
 }

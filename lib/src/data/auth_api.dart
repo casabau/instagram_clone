@@ -8,7 +8,6 @@ import 'package:instagramclone/src/models/auth/registration_info.dart';
 import 'package:meta/meta.dart';
 import 'package:algolia/algolia.dart';
 
-
 class AuthApi {
   const AuthApi({
     @required FirebaseAuth auth,
@@ -58,7 +57,7 @@ class AuthApi {
       assert(info.smsCode != null);
 
       final AuthCredential credential =
-      PhoneAuthProvider.getCredential(verificationId: info.verificationId, smsCode: info.smsCode);
+          PhoneAuthProvider.getCredential(verificationId: info.verificationId, smsCode: info.smsCode);
       result = await _auth.signInWithCredential(credential);
     }
 
@@ -147,8 +146,11 @@ class AuthApi {
     return AppUser.fromJson(snapshot.data);
   }
 
-  Future<List<AppUser>> searchUsers(String query) async {
-    final AlgoliaQuerySnapshot result = await _index.search(query).getObjects();
+  Future<List<AppUser>> searchUsers({@required String uid, @required String query}) async {
+    final AlgoliaQuerySnapshot result = await _index //
+        .setFacetFilter('uid:-$uid')
+        .search(query)
+        .getObjects();
 
     if (result.empty) {
       return <AppUser>[];
@@ -157,5 +159,19 @@ class AuthApi {
           .map((AlgoliaObjectSnapshot object) => AppUser.fromJson(object.data))
           .toList();
     }
+  }
+
+  Future<void> startFollowing({@required String uid, @required String followingUid}) async {
+    final List<String> uids = <String>[followingUid];
+    await _firestore //
+        .document('users/$uid')
+        .updateData(<String, dynamic>{'following': FieldValue.arrayUnion(uids)});
+  }
+
+  Future<void> stopFollowing({@required String uid, @required String followingUid}) async {
+    final List<String> uids = <String>[followingUid];
+    await _firestore //
+        .document('users/$uid')
+        .updateData(<String, dynamic>{'following': FieldValue.arrayRemove(uids)});
   }
 }
