@@ -24,7 +24,7 @@ import 'package:redux/redux.dart';
 import 'package:instagramclone/src/presentation/profile/users_lists.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:algolia/algolia.dart';
-
+import 'package:instagramclone/src/data/chats_api.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,8 +36,15 @@ void main() {
   final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
   final CommentsApi commentsApi = CommentsApi(firestore: Firestore.instance);
   final LikesApi likesApi = LikesApi(firestore: Firestore.instance);
+  final ChatsApi chatsApi = ChatsApi(firestore: Firestore.instance);
 
-  final AppEpics epics = AppEpics(authApi: authApi, postApi: postApi, commentsApi: commentsApi, likesApi: likesApi);
+  final AppEpics epics = AppEpics(
+    authApi: authApi,
+    postApi: postApi,
+    commentsApi: commentsApi,
+    likesApi: likesApi,
+    chatsApi: chatsApi,
+  );
   final Store<AppState> store = Store<AppState>(
     reducer,
     initialState: AppState(),

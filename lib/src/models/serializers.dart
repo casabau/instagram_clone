@@ -15,6 +15,9 @@ import 'package:instagramclone/src/models/auth/registration_info.dart';
 import 'package:instagramclone/src/models/auth/auth_state.dart';
 import 'package:instagramclone/src/models/comments/comment.dart';
 import 'package:instagramclone/src/models/comments/comments_state.dart';
+import 'package:instagramclone/src/models/chats/chat.dart';
+import 'package:instagramclone/src/models/chats/chats_state.dart';
+import 'package:instagramclone/src/models/chats/message.dart';
 
 part 'serializers.g.dart';
 
@@ -31,6 +34,9 @@ part 'serializers.g.dart';
   LikesState,
   LikeType,
   Like,
+  Chat,
+  ChatsState,
+  Message,
 ])
 Serializers serializers = (_$serializers.toBuilder() //
       ..addPlugin(StandardJsonPlugin()))

@@ -13,6 +13,8 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:instagramclone/src/epics/likes_epics.dart';
 import 'package:instagramclone/src/data/likes_api.dart';
+import 'package:instagramclone/src/data/chats_api.dart';
+import 'package:instagramclone/src/epics/chats_epics.dart';
 
 class AppEpics {
   const AppEpics({
@@ -20,19 +22,24 @@ class AppEpics {
     @required PostApi postApi,
     @required CommentsApi commentsApi,
     @required LikesApi likesApi,
+    @required ChatsApi chatsApi,
   })  : assert(authApi != null),
         assert(postApi != null),
         assert(commentsApi != null),
         assert(likesApi != null),
+        assert(chatsApi != null),
         _authApi = authApi,
         _postApi = postApi,
         _commentsApi = commentsApi,
-        _likesApi = likesApi;
+        _likesApi = likesApi,
+        _chatsApi = chatsApi;
 
   final AuthApi _authApi;
   final PostApi _postApi;
   final CommentsApi _commentsApi;
   final LikesApi _likesApi;
+  final ChatsApi _chatsApi;
+
 
   Epic<AppState> get epics {
     return combineEpics(<Epic<AppState>>[
@@ -41,6 +48,8 @@ class AppEpics {
       PostEpics(postApi: _postApi).epics,
       CommentsEpics(commentsApi: _commentsApi).epics,
       LikesEpics(likesApi: _likesApi).epics,
+      ChatsEpics(chatsApi: _chatsApi).epics,
+
     ]);
   }
 
