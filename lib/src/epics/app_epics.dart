@@ -15,6 +15,7 @@ import 'package:instagramclone/src/epics/likes_epics.dart';
 import 'package:instagramclone/src/data/likes_api.dart';
 import 'package:instagramclone/src/data/chats_api.dart';
 import 'package:instagramclone/src/epics/chats_epics.dart';
+import 'package:instagramclone/src/actions/chats/listen_for_chats.dart';
 
 class AppEpics {
   const AppEpics({
@@ -40,7 +41,6 @@ class AppEpics {
   final LikesApi _likesApi;
   final ChatsApi _chatsApi;
 
-
   Epic<AppState> get epics {
     return combineEpics(<Epic<AppState>>[
       TypedEpic<AppState, Bootstrap>(_bootstrap),
@@ -49,7 +49,6 @@ class AppEpics {
       CommentsEpics(commentsApi: _commentsApi).epics,
       LikesEpics(likesApi: _likesApi).epics,
       ChatsEpics(chatsApi: _chatsApi).epics,
-
     ]);
   }
 
@@ -58,7 +57,10 @@ class AppEpics {
         .flatMap((Bootstrap action) => _authApi
             .getUser()
             .asStream()
-            .map<AppAction>((AppUser user) => BootstrapSuccessful(user))
+            .expand<AppAction>((AppUser user) => <AppAction>[
+                  BootstrapSuccessful(user),
+                  if (user != null) ListenForChats(),
+                ])
             .onErrorReturnWith((dynamic error) => BootstrapError(error)));
   }
 }

@@ -25,6 +25,7 @@ import 'package:instagramclone/src/presentation/profile/users_lists.dart';
 import 'package:redux_epics/redux_epics.dart';
 import 'package:algolia/algolia.dart';
 import 'package:instagramclone/src/data/chats_api.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,12 @@ void main() {
   const Algolia algolia = Algolia.init(applicationId: 'J754OR2W4U', apiKey: '77f3205ba1b7efbbbf7f4dff470b9feb');
   final AlgoliaIndexReference index = algolia.index('users');
 
-  final AuthApi authApi = AuthApi(auth: FirebaseAuth.instance, firestore: Firestore.instance, index: index);
+  final AuthApi authApi = AuthApi(
+    auth: FirebaseAuth.instance,
+    firestore: Firestore.instance,
+    cloudFunctions: CloudFunctions.instance,
+    index: index,
+  );
   final PostApi postApi = PostApi(firestore: Firestore.instance, storage: FirebaseStorage.instance);
   final CommentsApi commentsApi = CommentsApi(firestore: Firestore.instance);
   final LikesApi likesApi = LikesApi(firestore: Firestore.instance);
