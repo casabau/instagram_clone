@@ -5,6 +5,7 @@ import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 import 'package:instagramclone/src/models/chats/chat.dart';
 import 'package:instagramclone/src/models/serializers.dart';
+import 'package:instagramclone/src/models/chats/message.dart';
 
 part 'chats_state.g.dart';
 
@@ -16,6 +17,8 @@ abstract class ChatsState implements Built<ChatsState, ChatsStateBuilder> {
   ChatsState._();
 
   BuiltMap<String, Chat> get chats;
+
+  BuiltMap<String, Message> get messages;
 
   @nullable
   String get selectedChatId;

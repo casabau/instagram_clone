@@ -64,11 +64,10 @@ class _PasswordPartState extends State<PasswordPart> {
                     StoreProvider.of<AppState>(context).dispatch(UpdateRegistrationInfo(newInfo));
                   },
                   validator: (String value) {
-                    if (value.length < 6) {
-                      return 'Password is too short.';
-                    } else {
-                      return null;
+                    if (value.isEmpty) {
+                      return 'Can you please try something more secure?';
                     }
+                    return null;
                   },
                 ),
               ),

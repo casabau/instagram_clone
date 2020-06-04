@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:instagramclone/src/containers/current_user_posts_count_container.dart';
 import 'package:instagramclone/src/containers/user_container.dart';
 import 'package:instagramclone/src/models/auth/app_user.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:instagramclone/src/actions/auth/logout.dart';
+import 'package:instagramclone/src/models/app_state.dart';
 
 class ProfilePart extends StatelessWidget {
   const ProfilePart({Key key}) : super(key: key);
@@ -14,6 +17,14 @@ class ProfilePart extends StatelessWidget {
           children: <Widget>[
             AppBar(
               title: Text(user.username),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.power_settings_new),
+                  onPressed: () {
+                    StoreProvider.of<AppState>(context).dispatch(LogOut());
+                  },
+                ),
+              ],
             ),
             Container(
               margin: const EdgeInsets.all(16.0),
@@ -32,23 +43,23 @@ class ProfilePart extends StatelessWidget {
                           ),
                           child: user.photoUrl == null
                               ? const Icon(
-                            Icons.person,
-                            size: 96.0,
-                          )
+                                  Icons.person,
+                                  size: 96.0,
+                                )
                               : Image.network(
-                            user.photoUrl,
-                            width: 96.0,
-                            height: 96.0,
-                          ),
+                                  user.photoUrl,
+                                  width: 96.0,
+                                  height: 96.0,
+                                ),
                         ),
                       ),
                       const SizedBox(height: 16.0),
                       Text(
                         user.displayName,
                         style: Theme.of(context).textTheme.bodyText1.copyWith(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
-                        ),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16.0,
+                            ),
                       ),
                     ],
                   ),

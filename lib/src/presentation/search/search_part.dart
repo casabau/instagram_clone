@@ -7,6 +7,8 @@ import 'package:instagramclone/src/models/auth/app_user.dart';
 import 'package:instagramclone/src/actions/auth/start_following.dart';
 import 'package:instagramclone/src/actions/auth/stop_following.dart';
 import 'package:instagramclone/src/containers/user_container.dart';
+import 'package:instagramclone/src/actions/chats/create_chat.dart';
+
 
 class SearchPart extends StatefulWidget {
   const SearchPart({Key key}) : super(key: key);
@@ -64,15 +66,27 @@ class _SearchPartState extends State<SearchPart> {
                         return ListTile(
                           title: Text(user.displayName),
                           subtitle: Text(user.email),
-                          trailing: IconButton(
-                            icon: Icon(isFollowing ? Icons.close : Icons.person_add),
-                            onPressed: () {
-                              if (isFollowing) {
-                                StoreProvider.of<AppState>(context).dispatch(StopFollowingSuccessful(user.uid));
-                              } else {
-                                StoreProvider.of<AppState>(context).dispatch(StartFollowing(user.uid));
-                              }
-                            },
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              IconButton(
+                                icon: const Icon(Icons.message),
+                                onPressed: () {
+                                  StoreProvider.of<AppState>(context).dispatch(CreateChat(user.uid));
+                                  Navigator.pushNamed(context, '/messages');
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(isFollowing ? Icons.close : Icons.person_add),
+                                onPressed: () {
+                                  if (isFollowing) {
+                                    StoreProvider.of<AppState>(context).dispatch(StopFollowingSuccessful(user.uid));
+                                  } else {
+                                    StoreProvider.of<AppState>(context).dispatch(StartFollowing(user.uid));
+                                  }
+                                },
+                              ),
+                            ],
                           ),
                         );
                       },

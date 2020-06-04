@@ -26,6 +26,8 @@ import 'package:redux_epics/redux_epics.dart';
 import 'package:algolia/algolia.dart';
 import 'package:instagramclone/src/data/chats_api.dart';
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:instagramclone/src/presentation/chats/chats_page.dart';
+import 'package:instagramclone/src/presentation/chats/messages_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -94,6 +96,8 @@ class InstagramClone extends StatelessWidget {
           '/postDetails': (_) => const PostDetails(),
           '/commentsPage': (_) => const CommentsPage(),
           '/usersList': (_) => const UsersList(),
+          '/messages': (_) => const MessagesPage(),
+          '/chats': (_) => const ChatsPage(),
         },
       ),
     );
